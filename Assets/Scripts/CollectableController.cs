@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// This script is attached to collectable items in the game world. It holds a reference to a CollectableItem ScriptableObject
+// which contains the details about the item (name, type, value, color, prefab, etc).
+//
 // The RequireComponent attribute ensures that the GameObject this script is attached to has the specified components.
 // We require a Collider and a RigidBody for the collisions/triggers to work properly. We also require a Renderer to apply color.
 
@@ -11,11 +14,15 @@ public class CollectableController : MonoBehaviour
     // Reference to a CollectableItem ScriptableObject which contains item details.
     public CollectableItem collectableItem;
 
+    // CollectableItem scriptable object's (that's a mouth full) have a color property which I use to distinguish 
+    // different items visually. The color will be applied to this object's material. To do that, I cache the Renderer
+    // and Material references here.
     private Renderer _renderer;
     private Material _material;
 
-    void OnEnable()
-    {
+    // Awake is called when the script instance is being loaded. This happens before any Start calls.
+    void Awake()
+    {        
         // Get the Renderer component attached to this GameObject and store it for later use
         _renderer = GetComponent<Renderer>();
 
@@ -23,22 +30,12 @@ public class CollectableController : MonoBehaviour
         // instance of the material so I want to store it here (otherwise we'd be creating a new instance each time
         // I go use renderer.material).
         _material = _renderer.material;
-    }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
         ApplyColorFromItem();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     // Apply the color from the assigned CollectableItem to this object's material
-    private void ApplyColorFromItem()
+    public void ApplyColorFromItem()
     {
         Renderer renderer = GetComponent<Renderer>();
         if (renderer == null || collectableItem == null)

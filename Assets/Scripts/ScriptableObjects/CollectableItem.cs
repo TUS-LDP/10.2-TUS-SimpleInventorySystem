@@ -8,5 +8,6 @@ public class CollectableItem : ScriptableObject
     public int value;
     public Sprite icon;
     public Color color = Color.white;
+    public GameObject prefab;
 
 }

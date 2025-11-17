@@ -920,7 +920,7 @@ PlayerSettings:
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: 10.2-TUS-SimpleInventorySystem
-  organizationId: game-engines-i
+  organizationId: tus-ldp
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

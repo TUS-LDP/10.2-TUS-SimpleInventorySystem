@@ -23,23 +23,26 @@ public class InventoryManager : MonoBehaviour
     // Adds an item to the inventory or increases its quantity if it already exists.
     public void AddItem(CollectableItem itemToAdd, int quantity)
     {
-        InventoryItem existingItem = itemsInInventory.Find(i => i.collectable == itemToAdd);
-        if (existingItem != null)
+        InventoryItem item = itemsInInventory.Find(i => i.collectable.displayName == itemToAdd.displayName);
+
+        if (item != null)
         {
-            existingItem.quantity += quantity;
+            item.quantity += quantity;
         }
         else
         {
-            InventoryItem newItem = new InventoryItem();
-            newItem.collectable = itemToAdd;
-            newItem.quantity = quantity;
-            itemsInInventory.Add(newItem);
+            item = new InventoryItem();
+            item.collectable = itemToAdd;
+            item.quantity = quantity;
+            itemsInInventory.Add(item);
         }
 
         if (activeItemIndex == -1)
         {
             activeItemIndex = 0;
         }
+
+        OnItemAdded?.Invoke(item);
     }
 
     public void RemoveItem(CollectableItem itemToRemove, int quantity)

@@ -21,36 +21,38 @@ public class InventoryManager : MonoBehaviour
 
 
     // Adds an item to the inventory or increases its quantity if it already exists.
-    public void AddItem(CollectableItem itemToAdd, int quantity)
+    public void AddItem(CollectableItem itemToAdd, int amtToAdd = 1)
     {
-        InventoryItem existingItem = itemsInInventory.Find(i => i.collectable == itemToAdd);
-        if (existingItem != null)
+        InventoryItem item = itemsInInventory.Find(i => i.collectable.displayName == itemToAdd.displayName);
+        if (item != null)
         {
-            existingItem.quantity += quantity;
+            item.quantity += amtToAdd;
         }
         else
         {
-            InventoryItem newItem = new InventoryItem();
-            newItem.collectable = itemToAdd;
-            newItem.quantity = quantity;
-            itemsInInventory.Add(newItem);
+            item = new InventoryItem();
+            item.collectable = itemToAdd;
+            item.quantity = amtToAdd;
+            itemsInInventory.Add(item);
         }
 
         if (activeItemIndex == -1)
         {
             activeItemIndex = 0;
         }
+
+        OnItemAdded?.Invoke(item);
     }
 
     public void RemoveItem(CollectableItem itemToRemove, int quantity)
     {
-        InventoryItem existingItem = itemsInInventory.Find(i => i.collectable == itemToRemove);
-        if (existingItem != null)
+        InventoryItem item = itemsInInventory.Find(i => i.collectable.displayName == itemToRemove.displayName);
+        if (item != null)
         {
-            existingItem.quantity -= quantity;
-            if (existingItem.quantity <= 0)
+            item.quantity -= quantity;
+            if (item.quantity <= 0)
             {
-                itemsInInventory.Remove(existingItem);
+                itemsInInventory.Remove(item);
                 if (itemsInInventory.Count == 0)
                 {
                     activeItemIndex = -1;
@@ -60,6 +62,8 @@ public class InventoryManager : MonoBehaviour
                     activeItemIndex = itemsInInventory.Count - 1;
                 }
             }
+
+            OnItemRemoved?.Invoke(item);
         }
     }
 
@@ -89,5 +93,6 @@ public class InventoryManager : MonoBehaviour
         }
 
         activeItemIndex = (activeItemIndex + 1) % itemsInInventory.Count;
+        OnActiveItemChanged?.Invoke(GetActiveItem());
     }
 }

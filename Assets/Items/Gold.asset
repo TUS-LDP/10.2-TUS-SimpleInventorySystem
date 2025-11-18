@@ -15,6 +15,6 @@ MonoBehaviour:
   displayName: Gold
   itemType: 3
   value: 100
-  icon: {fileID: 21300000, guid: af0ae2dbf3d1efb4f82af377950704a2, type: 3}
+  icon: {fileID: 21300000, guid: e95365cdd57d82740b6a2073a55c8f0d, type: 3}
   color: {r: 0.91194963, g: 0.7303085, b: 0.10610718, a: 1}
   prefab: {fileID: 1171180071147483565, guid: ed0043dd58a6e00419cbaf11ffead9c7, type: 3}

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIInventoryManager : MonoBehaviour
+public class UIInventorySlotManager : MonoBehaviour
 {
-    public RectTransform inventoryPanel;  // The parent object that holds the inventory UI items
+    public RectTransform inventoryPanel;  // The parent object that holds the inventory UI slots
 
     // Reference to the InventoryManager
     public InventoryManager inventoryManager;
 
-    public GameObject inventoryUI; // The UI panel for the inventory
+    public GameObject slotPrefab; // The UI panel for the inventory
 
-    private List<UIInventoryItem> itemsInInventory = new List<UIInventoryItem>();
+    private List<UIInventorySlot> itemsInInventory = new List<UIInventorySlot>();
 
     // Called when the object becomes enabled and active
     void OnEnable()
@@ -34,16 +34,18 @@ public class UIInventoryManager : MonoBehaviour
         Debug.Log($"Item Added: {item.collectable.displayName}, Quantity: {item.quantity}");
 
         // Let's see if the item is already in the itemsInInventory list
-        UIInventoryItem uiItem = itemsInInventory.Find(ui => ui.GetItem().collectable.displayName == item.collectable.displayName);
-        if (uiItem != null) 
+        UIInventorySlot itemSlot = itemsInInventory.Find(ui => ui.GetItem().collectable.displayName == item.collectable.displayName);
+        if (itemSlot != null) 
         {
             // Item already exists in UI, just increment quantity
-            uiItem.IncrementQuantity(item.quantity);
+            itemSlot.SetQuantity(item.quantity);
         }
         else
         {
             // Item does not exist in UI, create a new UIInventoryItem
-            Instantiate(inventoryUI, inventoryPanel).GetComponent<UIInventoryItem>().SetItem(item);
+            UIInventorySlot newSlot = Instantiate(slotPrefab, inventoryPanel).GetComponent<UIInventorySlot>();
+            newSlot.SetItem(item);
+            itemsInInventory.Add(newSlot);
         }
     }
 

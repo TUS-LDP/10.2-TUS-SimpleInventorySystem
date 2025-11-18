@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIInventoryItem : MonoBehaviour
+public class UIInventorySlot : MonoBehaviour
 {
     private InventoryItem item;
 
@@ -23,9 +23,9 @@ public class UIInventoryItem : MonoBehaviour
         return item;
     }
 
-    public void IncrementQuantity(int amount = 1)
+    public void SetQuantity(int amount = 1)
     {
-        item.quantity += amount;
+        item.quantity = amount;
         itemQuantityText.text = item.quantity.ToString();
     }
     public void DecrementQuantity(int amount = 1)

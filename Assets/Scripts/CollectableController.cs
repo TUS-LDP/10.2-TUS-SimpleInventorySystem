@@ -11,8 +11,42 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class CollectableController : MonoBehaviour
 {
-    // Reference to a CollectableItem ScriptableObject which contains item details.
-    public CollectableItem collectableItem;
+    // Reference to a CollectableItem ScriptableObject which contains item details. Notice that this field is private
+    // so it won't be accessible from other scripts, but it's serialized so we can assign it in the Unity Inspector.
+    // However, I've created a public property below to allow controlled access to it. A csharp property lets us define
+    // custom behavior when getting or setting the value. 
+    [SerializeField] private CollectableItem _theItemsSO;
+
+    // Public property that wraps the serialized field. This allows other scripts to get or set the CollectableItem
+    // while still keeping the field itself private. It also allows us add additional code when we get or set the value.
+    public CollectableItem theItemsSO
+    {
+        // This is a getter. It runs when another script tries to access theItemsSO property. The code in the other script
+        // will look something like:
+        //    CollectableItem item = collectableController.theItemsSO;
+        // As you can see above, it just looks like we are accessing a normal public field, but under the hood, this 
+        // getter method below is being called.
+        get
+        {
+            if (_theItemsSO == null)
+            {
+                Debug.LogError($"CollectableController on {gameObject.name} has a null theItemsSO!");
+            }
+
+            return _theItemsSO;
+        }
+
+        // This is a setter. It runs when another script tries to assign a value to theItemsSO property. The code in the
+        // other script will look something like:
+        //    collectableController.theItemsSO = someCollectableItem;
+        // Again, it looks like we are just assigning a value to a public field, but under the hood, this setter method 
+        // below is being called.
+        // All setter methods have an implicit parameter called 'value' which holds the value being assigned.
+        set
+        {
+            _theItemsSO = value;
+        }
+    }
 
     // CollectableItem scriptable object's (that's a mouth full) have a color property which I use to distinguish 
     // different items visually. The color will be applied to this object's material. To do that, I cache the Renderer
@@ -22,7 +56,7 @@ public class CollectableController : MonoBehaviour
 
     // Awake is called when the script instance is being loaded. This happens before any Start calls.
     void Awake()
-    {        
+    {                
         // Get the Renderer component attached to this GameObject and store it for later use
         _renderer = GetComponent<Renderer>();
 
@@ -38,7 +72,7 @@ public class CollectableController : MonoBehaviour
     public void ApplyColorFromItem()
     {
         Renderer renderer = GetComponent<Renderer>();
-        if (renderer == null || collectableItem == null)
+        if (renderer == null)
             return;
 
         // In Edit Mode, use sharedMaterial to avoid creating instances that leak
@@ -48,7 +82,7 @@ public class CollectableController : MonoBehaviour
         if (targetMaterial == null)
             return;
 
-        Color color = collectableItem.color;
+        Color color = theItemsSO.color;
 
         if (targetMaterial.HasProperty("_BaseColor")) // for URP and HDRP shaders
         {

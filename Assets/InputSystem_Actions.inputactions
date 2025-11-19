@@ -81,7 +81,7 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -96,9 +96,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "NextItem",
+                    "name": "CycleItem",
                     "type": "Button",
                     "id": "ba6d1a70-5c9a-44b5-9206-cf2500c1f29a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PickUpItem",
+                    "type": "Button",
+                    "id": "ba0866a6-653c-45df-81d9-e9b426fa85a4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -494,7 +503,7 @@
                 {
                     "name": "",
                     "id": "aee33441-8d61-4203-b278-bf7d784625ef",
-                    "path": "<Keyboard>/p",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -509,7 +518,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "NextItem",
+                    "action": "CycleItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76679457-899e-4738-b9c0-f54c23fe44da",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PickUpItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

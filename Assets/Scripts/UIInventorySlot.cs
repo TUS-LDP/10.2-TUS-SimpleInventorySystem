@@ -14,7 +14,7 @@ public class UIInventorySlot : MonoBehaviour
     {
         item = newItem;
         // Update UI elements here based on item properties
-        itemIconImage.sprite = item.collectable.icon;
+        itemIconImage.sprite = item.theItemsSO.icon;
         itemQuantityText.text = item.quantity.ToString();
     }
 
